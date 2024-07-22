@@ -19,6 +19,7 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
+	"errors"
 	"fmt"
 
 	gopkcs12 "software.sslmate.com/src/go-pkcs12"
@@ -155,6 +156,7 @@ func certsToPkcs12(cert *x509.Certificate, key string, caCerts []*x509.Certifica
 		return "", err
 	}
 
+	// Replace Modern.Encode with a custom deterministic function if necessary
 	pfx, err := gopkcs12.Modern.Encode(parsedKey, cert, caCerts, password)
 	if err != nil {
 		return "", err
